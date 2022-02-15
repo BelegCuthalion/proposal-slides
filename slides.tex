@@ -1,0 +1,556 @@
+\documentclass{beamer}
+
+\usetheme{focus}
+% Add option [numbering=none] to disable the footer progress bar
+% Add option [numbering=fullbar] to show the footer progress bar as always full with a slide countx
+
+
+\definecolor{main}{RGB}{55, 135, 177}
+\definecolor{text}{RGB}{15, 40, 60}
+\definecolor{background}{RGB}{255, 255, 255}
+
+\setbeamertemplate{block begin}
+{
+  \par\vskip\medskipamount%
+  \IfStrEq{\insertblocktitle}{}{}{
+      \begin{beamercolorbox}[colsep*=.75ex]{block title}
+        \usebeamerfont*{block title}\insertblocktitle%
+      \end{beamercolorbox}%
+  }
+  {\parskip0pt\par}%
+  \ifbeamercolorempty[bg]{block title}
+  {}
+  {\ifbeamercolorempty[bg]{block body}{}{\nointerlineskip\vskip-0.5pt}}%
+  \usebeamerfont{block body}%
+  \begin{beamercolorbox}[colsep*=.75ex,vmode]{block body}%
+    \ifbeamercolorempty[bg]{block body}{\vskip-.25ex}{\vskip-.75ex}\vbox{}%
+}
+
+
+\setbeamercovered{transparent}
+
+%------------------------------------------------
+
+\usepackage{booktabs} % Required for better table rules
+\usepackage{xstring}
+\usepackage{tikz}
+\renewcommand{\baselinestretch}{1.3}
+\usepackage[T1]{fontenc}
+\usepackage[sfdefault]{AlegreyaSans}
+\usepackage{bussproofs}
+\EnableBpAbbreviations
+\usepackage{multicol}
+
+\title{A Study of Logical Systems with Predicative Implication}
+
+\subtitle{A research proposal}
+
+\author{Alireza Mahmoudian}
+
+\titlegraphic{\includegraphics[scale=.2]{res/ut-logo.png}}
+
+\institute{School of Mathematics, Statistics and\\ Computer Science\\ University of Tehran}
+
+\date{Feb 2022}
+
+
+\begin{document}
+
+
+\begin{frame}
+	\maketitle
+\end{frame}
+
+\def\secImpredicativity{Impredicativity}
+\def\subImprDef{What is \emph{impredicativity}?}
+\def\subBHK{Impredicativity in logic}
+\def\secSTL{Predicative Implications}
+\def\subIdea{Basic idea}
+\def\subSTL{A logical system}
+\def\subSemantics{Semantics}
+\def\subExtensions{Extensions}
+\def\secProposal{Our research}
+\def\subAnalytic{Cut-elimination}
+\def\subGSTL{Equivalent analytic logical systems}
+\def\subResults{Results}
+\def\subFurther{Further works}
+
+\begin{frame}[noframenumbering]
+	\begin{quote}
+		{\Large Committee}
+			
+			\quad Hiroakira Ono
+
+			\quad Meghdad Ghari
+
+			\quad Majid Alizadeh
+
+			\quad Amirhossein Akbar Tabatabai
+	\end{quote}
+\end{frame}
+
+\begin{frame}{Agenda}
+	\begin{enumerate}
+		\item \secImpredicativity
+		\begin{enumerate}
+			\item \subImprDef
+			\item \subBHK
+		\end{enumerate}
+		\item \secSTL
+		\begin{enumerate}
+			\item \subIdea
+			\item \subSTL
+			\item \subSemantics
+			\item \subExtensions
+		\end{enumerate}
+		\item \secProposal
+		\begin{enumerate}
+			\item \subAnalytic
+			\item \subGSTL
+			\item \subResults
+			\item \subFurther
+		\end{enumerate}
+	\end{enumerate}
+\end{frame}
+
+\section{\secImpredicativity}
+
+\begin{frame}{\subImprDef}
+	\begin{block}{}
+		``A deﬁnition is impredicative if it deﬁnes a member of a totality in terms of that totality itself.'' \cite{van2017predicativity}
+		\vspace{1ex}
+	\end{block}
+	Two kinds of impredicative definition:
+	\begin{enumerate}
+		\item Constructive
+		\item Non-constructive
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{\subImprDef}
+	\begin{exampleblock}{Examples in set theory}
+		\begin{enumerate}
+			\item $k =$ the least element in $\{1, 2, 3\}$.
+			\item $\mathcal{P}(S) =$ the set that exactly contains \emph{all sets} which are subsets of $S$. (The subset axiom)
+		\end{enumerate}
+	\end{exampleblock}
+	\begin{itemize}
+		\item The impredicative deﬁnition	of $k$ is not essential to its introduction, because we can just enumerate all members of $\{ 1, 2, 3\}$.
+		\item While for an inﬁnite set $S$, there is no alternative to characterising the set of all its subsets by relating it to the totality of all sets, because there is no way to generate all subsets of a given inﬁnite set, other than the subset axiom.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{\subImprDef}
+	Non-constructive definition leads to paradoxes:
+	\[X = \{ x \mid x \notin x \} \]
+	Russel introduces \emph{The Theory of Types}.
+	\begin{block}{Vicious Cirlcle Principle}
+		``Whatever contains an apparent variable must not be a possible value of that variable.'' \cite{russell1908mathematical}
+		\vspace{1ex}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\subBHK}
+	BHK Interpretation defines a proof for an intuitionistic proposition inductively. So a proof for
+	\begin{itemize}
+		\small
+		\item an atomic proposition is supposed to be known from context,
+		\item $\bot$ does not exist,
+		\item $P \vee Q$ is either $\langle 0, a \rangle$, where $a$ is a proof of $P$, or $\langle 1, a \rangle$, where $a$ is a proof of $Q$,
+		\item $P \wedge Q$ is $\langle a, b \rangle$, where $a$ is a proof of $P$ and $b$ is a proof of $Q$,
+		\large
+		\item $P \rightarrow Q$ is a function $f : p(P) \rightarrow p(Q)$, where $p(X)$ is the set of all proofs of the proposition $X$.
+	\end{itemize}
+	In the clause for $P \rightarrow Q$, we are quantifying over \emph{all} proofs, but the set of \emph{all} proofs is just being defined.
+\end{frame}
+
+\begin{frame}{\subBHK}
+	Consider the \emph{modus ponens} rule:
+	\begin{prooftree}
+		\AXC{$p : P$}
+		\AXC{$g : P \rightarrow Q$}
+		\BIC{$e(g, p) : Q$}
+	\end{prooftree}
+	Let $f : (P \rightarrow Q) \rightarrow P$. Then an instance of the modus ponens rules could be
+	\begin{prooftree}
+		\AXC{$f : (P \rightarrow Q) \rightarrow P$}
+		\AXC{$g : P \rightarrow Q$}
+		\BIC{$e(f, g) : P$}
+	\end{prooftree}
+	$e(f, g) \in Dom(g)$: A vicious circle!
+\end{frame}
+
+\section{\secSTL}
+
+\begin{frame}{\subIdea}
+
+	\begin{block}{Question}
+		How to exclude the proofs of $P \rightarrow Q$ from possible proofs of $P$?
+
+		\quad Rule out all proofs of $P$ that are constructed \emph{before} the proof of $P \rightarrow Q$.
+	\end{block}
+
+	So we need some notion of \emph{time} in our interpretation.
+
+	\begin{itemize}
+		\large
+		\item A proof of $P \rightarrow Q$ \emph{at the time $t$}, is a function $f_t : p_s(P) \rightarrow p_s(Q)$, where $p_s(X)$ is the set of all proofs of the proposition $X$ \emph{at time $s$ after $t$}.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{\subIdea}
+	\begin{itemize}
+		\large
+		\item A proof of $P \rightarrow Q$ \emph{at the time $t$}, is a function $f_t : p_s(P) \rightarrow p_s(Q)$, where $p_s(X)$ is the set of all proofs of the proposition $X$ \emph{at time $s$ after $t$}.
+	\end{itemize}
+
+	To implement this idea in a logical system, we can add a unary operator $\nabla$ to the language which we call ``pull-back'', and interpret $\nabla P$ as the statement ``the proposition $P$ has been prooved some time in the past''.
+
+	Then the modus ponens rule would look like this.
+	
+	\begin{prooftree}
+		\AXC{$P$}
+		\AXC{$\nabla (P \rightsquigarrow Q)$}
+		\BIC{$Q$}
+	\end{prooftree}
+
+	An implication can be used to deduced $Q$ from $P$ at present time, only if it has been proved some time in the past. Thus its own proof is not a member of its domain anymore.
+\end{frame}
+
+
+\begin{frame}{\subSTL}
+	
+	Consider the sequent-style system $\mathbf{LJ}$ on the language $\mathcal{L} = \langle \vee, \wedge, \rightsquigarrow, \nabla, \bot, \top \rangle$ and add the following rule to the system.
+	\begin{prooftree}
+		\AXC{$A \Rightarrow B$}
+		\RightLabel{$\nabla$}
+		\UIC{$\nabla A \Rightarrow \nabla B$}
+	\end{prooftree}
+	Also replace the rules for implication with the following rules for \emph{weak implication}.
+	\begin{columns}
+		\column{0.5\textwidth}
+		\begin{prooftree}
+			\AXC{$\Gamma \Rightarrow A$}
+			\AXC{$\Gamma, B \Rightarrow \Delta$}
+			\RightLabel{$L \rightsquigarrow$}
+			\BIC{$\Gamma, \nabla (A \rightsquigarrow B) \Rightarrow \Delta$}
+		\end{prooftree}
+		\column{0.5\textwidth}
+		\begin{prooftree}
+			\AXC{$\nabla \Gamma, A \Rightarrow B$}
+			\RightLabel{$R \rightsquigarrow$}
+			\UIC{$\Gamma \Rightarrow A \rightsquigarrow B$}
+		\end{prooftree}
+	\end{columns}
+	\vspace{3ex}
+	Call the resulting system $\mathbf{iSTL}$. \cite{amir}
+\end{frame}
+
+\begin{frame}[t]{\subSTL}
+	Some important theorems in $\mathbf{iSTL}$ \quad  $(\Box X = \top \rightsquigarrow X)$
+	\begin{block}{}
+		\begin{columns}
+			\column{0.5\textwidth}
+			\[ \vdash \nabla \bot \Leftrightarrow \bot \]
+			\column{0.5\textwidth}
+			\[ \vdash \top \Rightarrow \nabla \top \]
+		\end{columns}
+		\vspace{1ex}
+
+		\begin{columns}
+			\column{0.5\textwidth}
+			\[ \vdash \nabla (A \vee B) \Leftrightarrow \nabla A \vee \nabla B \]
+			\column{0.5\textwidth}
+			\[ \vdash \nabla (A \wedge B) \Rightarrow \nabla A \wedge \nabla B \]
+		\end{columns}
+		\vspace{1ex}
+
+		\begin{columns}
+			\column{0.5\textwidth}
+			\[ \vdash \nabla \Box A \Rightarrow A \]
+			\column{0.5\textwidth}
+			\[ \vdash A \Rightarrow \Box \nabla A \]
+		\end{columns}
+		\vspace{1ex}
+
+		\begin{columns}
+			\column{0.5\textwidth}
+			\[ \vdash A, \nabla (A \rightarrow B) \Rightarrow B \]
+			\column{0.5\textwidth}
+			\[ A \Rightarrow B \vdash \Rightarrow A \rightsquigarrow B \]
+		\end{columns}
+		\[ \nabla A \Rightarrow B \dashv\vdash A \Rightarrow \Box B \]
+		\[ A, \nabla C \Rightarrow B \dashv\vdash C \Rightarrow A \rightsquigarrow B \]
+	\end{block}
+
+	(Notice the adjunction relations.) 
+\end{frame}
+
+\begin{frame}{\subSemantics}
+	\begin{block}{Definition}
+		\begin{itemize}
+			\item A \emph{locale} is a complete lattice whose meet distributes over all joins, or equivalently, a complete Heyting algebra.
+			\item A pair $(X, \nabla)$ is called a \emph{spacetime}, if $X$ is a locale, and $\nabla : X \rightarrow X$ is a monotone, arbitrary-join-preserving operator (called \emph{pull-back}).
+			\cite{amir}
+		\end{itemize}
+	\end{block}
+
+	All spacetimes have a \emph{weak implication} defined as follows. \[a \rightsquigarrow b = \bigvee \{ x \mid a \wedge \nabla x \leq b \} \]
+
+	Notice that for any complete Heyting algebra $\mathcal{H}$, the pair $(\mathcal{H}, id_\mathcal{H})$ is a spacetime.
+\end{frame}
+
+\begin{frame}{\subSemantics}
+	We can interpret the set of $\mathcal{L}$-formulas $\Phi$ in a spacetime.
+
+	\begin{block}{Definition}
+		For any spacetime $S$, a \emph{valuation} is any map $V : \Phi \to S$ such that for all $a, b \in S$
+		\begin{itemize}
+			\item $V(a \vee b) = V(a) \vee V(b)$
+			\item $V(a \wedge b) = V(a) \wedge V(b)$
+			\item $V(a \rightsquigarrow b) = V(a) \rightsquigarrow V(b)$
+			\item $V(\nabla a) = \nabla V(a)$
+			\item $V(\bot) = 0$
+			\item $V(\top) = 1$
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\subSemantics}
+	$\mathbf{iSTL}$ is \emph{the logic of spacetime}.
+
+	\begin{block}{Theorem}
+		For any set of formulas $\Gamma \cup \{ A \}$ we have the following.
+		\[ \bigwedge_{B \in \Gamma} V(B) \leq V(A) \text{ in any spacetime} \iff \mathbf{iSTL} \vdash \Gamma \Rightarrow A \]
+
+		That is, $\mathbf{iSTL}$ is sound and complete with respect to the class of all spacetimes. \cite{amir}
+		\vspace{1ex}
+	\end{block}
+
+	Just like usual intuitionistic implication, there is an adjunction relation:
+	\[ x \wedge \nabla a \leq b \iff a \leq x \rightsquigarrow b \]
+\end{frame}
+
+\begin{frame}[t]{\subExtensions}
+	\vspace{-1ex}
+	\center
+	\begin{multicols}{2}
+		Additional rules:
+		\columnbreak
+
+		Corresponding spacetime axiom:
+	\end{multicols}
+
+	\begin{multicols}{2}
+		\begin{prooftree}
+			\AXC{$\Gamma \Rightarrow \Delta$}
+			\RightLabel{$N$}
+			\UIC{$\nabla \Gamma \Rightarrow \nabla \Delta$}
+		\end{prooftree}
+		\columnbreak
+		$\nabla$ preserves meets
+	\end{multicols}
+
+	\begin{multicols}{2}
+		\begin{prooftree}
+			\RightLabel{$Fa$}
+			\AXC{$\Gamma , A \Rightarrow B$}
+			\UIC{$\Gamma \Rightarrow \nabla(A \rightsquigarrow B)$}
+		\end{prooftree}
+		\columnbreak
+		$\nabla$ is a surjection
+	\end{multicols}
+
+	\begin{multicols}{2}
+		\begin{prooftree}
+			\RightLabel{$Fu$}
+			\AXC{$\nabla \Gamma \Rightarrow \nabla A$}
+			\UIC{$\Gamma \Rightarrow A$}
+		\end{prooftree}
+		\columnbreak
+		$\nabla$ is an injection
+	\end{multicols}
+
+	\begin{multicols}{2}
+		\begin{prooftree}
+			\RightLabel{$L$}
+			\AXC{$\Gamma, A \Rightarrow \Delta$}
+			\UIC{$\Gamma, \nabla A \Rightarrow \Delta$}
+		\end{prooftree}
+		\columnbreak
+		$\nabla a \leq a$, for all $a$
+	\end{multicols}
+
+	\begin{multicols}{2}
+		\begin{prooftree}
+			\RightLabel{$R$}
+			\AXC{$\nabla \Gamma, \Sigma \Rightarrow \Delta$}
+			\UIC{$\Gamma, \Sigma \Rightarrow \Delta$}
+		\end{prooftree}
+		\columnbreak
+		$a \leq \nabla a$, for all $a$
+	\end{multicols}
+\end{frame}
+
+\section{\secProposal}
+
+\begin{frame}{\subAnalytic}
+	To facilitate the study from the perspective of proof-theory, a logical system must be analytic.
+
+	\begin{block}{Definition}
+		a sequent-style system \emph{analytic} if in all of its rules, any formula in the assumptions above the inference line is a sub-formula of some formula below the inference line.
+		\vspace{1ex}
+	\end{block}
+
+	$\mathbf{iSTL}$ is not analytic; it has a $cut$ rule.
+	\begin{block}{}
+		\begin{prooftree}
+			\AXC{$\Gamma \Rightarrow A$}
+			\AXC{$\Sigma, A \Rightarrow \Delta$}
+			\RightLabel{$cut$}
+			\BIC{$\Gamma, \Sigma \Rightarrow \Delta$}
+		\end{prooftree}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\subAnalytic}
+	The usual method for cut-elimination, i.e. induction on the proof-tree does not work for $\mathbf{iSTL}$.
+	\begin{exampleblock}{Theorem}
+		If $\mathbf{iSTL}$ proves $\Gamma \Rightarrow A$ and $\Sigma, A \Rightarrow \Delta$ then it also proves $\Gamma, \Sigma \Rightarrow \Delta$ without using another instance of the $cut$ rule.
+			
+		\quad \emph{Proof:} By induction on the proof-trees for $\Gamma \Rightarrow A$ and $\Sigma, A \Rightarrow \Delta$. We check different cases for the last rule of each proof-tree. Let's check some cases for example.
+		
+		\quad [ \dots ]
+
+	\end{exampleblock}
+\end{frame}
+
+\begin{frame}{\subAnalytic}
+	\begin{block}{}
+		\begin{itemize}
+			\item The case where the last rule in the first proof-tree is $\nabla$:
+			
+			We have $\Sigma, \nabla A \Rightarrow \Delta$ and $\nabla B \Rightarrow \nabla A$, using $\nabla$ rule on $B \Rightarrow A$.
+	
+			\item The case where the last rule in the second proof-tree is $R \rightsquigarrow$:
+			
+			We have $\Gamma \Rightarrow A$ and $\Sigma, A \Rightarrow B \rightsquigarrow C$, using $R \rightsquigarrow$ on $\nabla \Sigma, \nabla A, B \Rightarrow C$
+
+			[ \dots ]
+		\end{itemize}
+
+		\quad \small What can we do?
+	\end{block}
+
+	We can try eliminating a stronger version of the $cut$ rule.
+
+	\begin{block}{}
+		\begin{prooftree}
+			\AXC{$\Gamma \Rightarrow \nabla^m A$}
+			\AXC{$\Sigma , \{\nabla^{n_i} A\}_{i \leq l} \Rightarrow \Delta$}
+			\RightLabel{$\nabla Cut$}
+			\BIC{$\{\nabla^{n_i} \Gamma\}_{i \leq l} , \nabla^m \Sigma \Rightarrow \nabla^m \Delta$}
+		\end{prooftree}
+	\end{block}
+\end{frame}
+
+\begin{frame}{\subAnalytic}
+	But this impacts other rules as well. Let's check another example case.
+	\begin{block}{}
+		\begin{itemize}
+			\item The case where the last rule in the first proof-tree is $L \wedge_1$:
+			
+			We have $\Gamma, B \wedge C \Rightarrow \nabla^m A$ using $L \wedge_1$ on $\Gamma, B \Rightarrow \nabla^m A$ and $\Sigma , \{\nabla^{n_i} A\}_{i \leq l} \Rightarrow \Delta$. The induction hypothesis would give us $\{\nabla^{n_i} \Gamma\}_{i \leq l}, \{\nabla^{n_i} C \}_{i \leq l}, \nabla^m \Sigma \Rightarrow \nabla^m \Delta$.
+		\end{itemize}
+		\quad [ \dots ]
+	\end{block}
+
+	As we see, in some cases $\nabla$ is must commute with other connectives---and we know it does.* So we may also strengthen some rules as well, without increasing the power of the system.
+
+	\small * Notice that we can't do this directly in the proof, because it involves instances of the $cut$ rule.
+\end{frame}
+
+\begin{frame}{\subGSTL}
+	Strengthen some rules in $\mathbf{iSTL}$ as follows.
+	\begin{block}{}
+		\begin{multicols}{2}
+			\begin{prooftree}
+				\AXC{}
+				\RightLabel{$Ex$}
+				\UIC{$\nabla^n \bot \Rightarrow$}
+			\end{prooftree}
+			\columnbreak
+			\begin{prooftree}
+				\AXC{$\Gamma \Rightarrow \Delta$}
+				\RightLabel{$N$}
+				\UIC{$\nabla \Gamma \Rightarrow \nabla \Delta$}
+			\end{prooftree}
+		\end{multicols}
+
+		\begin{multicols}{2}
+			\begin{prooftree}
+				\AXC{$\Gamma, \nabla^n A \Rightarrow \Delta$}
+				\RightLabel{$L \wedge_1$}
+				\UIC{$\Gamma, \nabla^n (A \wedge B) \Rightarrow \Delta$}
+			\end{prooftree}
+			\columnbreak
+			\begin{prooftree}
+				\AXC{$ \Gamma, \nabla^n B \Rightarrow \Delta$}
+				\RightLabel{$L \wedge_2$}
+				\UIC{$\Gamma, \nabla^n (A \wedge B) \Rightarrow \Delta$}
+			\end{prooftree}
+		\end{multicols}
+
+		\begin{prooftree}
+			\AXC{$\Gamma \Rightarrow \nabla^n A$}
+			\AXC{$\Gamma, \nabla^n B \Rightarrow \Delta$}
+			\RightLabel{$L \rightsquigarrow$}
+			\BIC{$\Gamma, \nabla^{n+1} (A \rightsquigarrow B) \Rightarrow \Delta$}
+		\end{prooftree}
+
+		\begin{prooftree}
+			\AXC{$\Gamma, \nabla^n A \Rightarrow \Delta$}
+			\AXC{$\Gamma, \nabla^n B \Rightarrow \Delta$}
+			\RightLabel{$L \vee$}
+			\BIC{$\Gamma, \nabla^n (A \vee B) \Rightarrow \Delta$}
+		\end{prooftree}
+	\end{block}
+	Call the resulting system $\mathbf{GSTL}$
+\end{frame}
+
+\begin{frame}{\subResults}
+	By showing $\mathbf{iSTL} \dashv \vdash \mathbf{GSLT}$
+	then using this equivalent system, we hope to establish some properties of $\mathbf{iSTL}$ which are easy to prove using proof-theoretic means.
+	\begin{block}{The work-flow}
+		\[
+			\begin{matrix}
+				P(\mathbf{iSTL}) & \dashv \vdash & P(\mathbf{GSTL}) \\
+				{\bot}\atop{\top} & \quad & {\bot}\atop{\top}\\
+				P(\mathbf{iSTL}-cut) & \quad & P(\mathbf{GSTL}-cut)
+			\end{matrix}
+		\]
+	\end{block}
+	So to prove some propert $P$ for $\mathbf{iSTL}$, we can reduce it to $\mathbf{GSTL}$, where can we apply proof-theoretic methods.
+\end{frame}
+
+\begin{frame}{\subResults}
+	The results we hope to establish for $\mathbf{iSTL}$ include:
+	\begin{itemize}
+		\item Disjunction property
+		\item Admissibility of the Visser's rules
+		\item Existence of interpolant formulas
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{\subFurther}
+	We will also pursue following.
+\begin{itemize}
+  \item To study the relationship between the logic of spacetime and the corresponding modal logics,
+  \item To study a more general system for substructural logics, and
+  \item to implement the logical systems and proofs of our results in a computer proof-assistant software.
+\end{itemize}
+\end{frame}
+
+\bibliographystyle{apalike}
+\bibliography{references}
+\end{document}
