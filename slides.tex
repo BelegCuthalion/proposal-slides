@@ -43,13 +43,11 @@
 
 \title{A Study of Logical Systems with Predicative Implication}
 
-\subtitle{A research proposal}
-
-\author{Alireza Mahmoudian}
+\author{Alireza Mahmoudian \\ Supervisors: \\ $~~~~~$ Majid Alizadeh \\ $~~~~~$ Amirhossein Akbar Tabatabai}
 
 \titlegraphic{\includegraphics[scale=.2]{res/ut-logo.png}}
 
-\institute{School of Mathematics, Statistics and\\ Computer Science\\ University of Tehran}
+\institute{School of Mathematics, Statistics and Computer Science\\ University of Tehran}
 
 \date{Feb 2022}
 
@@ -74,20 +72,6 @@
 \def\subGSTL{Equivalent analytic logical systems}
 \def\subResults{Results}
 \def\subFurther{Further works}
-
-\begin{frame}[noframenumbering]
-	\begin{quote}
-		{\Large Committee}
-			
-			\quad Hiroakira Ono
-
-			\quad Meghdad Ghari
-
-			\quad Majid Alizadeh
-
-			\quad Amirhossein Akbar Tabatabai
-	\end{quote}
-\end{frame}
 
 \begin{frame}{Agenda}
 	\begin{enumerate}
@@ -117,7 +101,7 @@
 
 \begin{frame}{\subImprDef}
 	\begin{block}{}
-		``A deﬁnition is impredicative if it deﬁnes a member of a totality in terms of that totality itself.'' \cite{van2017predicativity}
+		``A definition is impredicative if it defines a member of a totality in terms of that totality itself.'' \cite{van2017predicativity}
 		\vspace{1ex}
 	\end{block}
 	Two kinds of impredicative definition:
@@ -135,7 +119,7 @@
 		\end{enumerate}
 	\end{exampleblock}
 	\begin{itemize}
-		\item The impredicative deﬁnition	of $k$ is not essential to its introduction, because we can just enumerate all members of $\{ 1, 2, 3\}$.
+		\item The impredicative definition	of $k$ is not essential to its introduction, because we can just enumerate all members of $\{ 1, 2, 3\}$.
 		\item While for an inﬁnite set $S$, there is no alternative to characterising the set of all its subsets by relating it to the totality of all sets, because there is no way to generate all subsets of a given inﬁnite set, other than the subset axiom.
 	\end{itemize}
 \end{frame}
@@ -173,8 +157,8 @@
 	\end{prooftree}
 	Let $f : (P \rightarrow Q) \rightarrow P$. Then an instance of the modus ponens rules could be
 	\begin{prooftree}
-		\AXC{$f : (P \rightarrow Q) \rightarrow P$}
 		\AXC{$g : P \rightarrow Q$}
+		\AXC{$f : (P \rightarrow Q) \rightarrow P$}
 		\BIC{$e(f, g) : P$}
 	\end{prooftree}
 	$e(f, g) \in Dom(g)$: A vicious circle!
@@ -214,7 +198,7 @@
 		\BIC{$Q$}
 	\end{prooftree}
 
-	An implication can be used to deduced $Q$ from $P$ at present time, only if it has been proved some time in the past. Thus its own proof is not a member of its domain anymore.
+	An implication can be used to deduced $Q$ from $P$ at present time, only if it has been proved some time in the past. Thus, its own proof is not a member of its domain anymore.
 \end{frame}
 
 
@@ -275,7 +259,7 @@
 
 		\begin{columns}
 			\column{0.5\textwidth}
-			\[ \vdash A, \nabla (A \rightarrow B) \Rightarrow B \]
+			\[ \vdash A, \nabla (A \rightsquigarrow B) \Rightarrow B \]
 			\column{0.5\textwidth}
 			\[ A \Rightarrow B \vdash \Rightarrow A \rightsquigarrow B \]
 		\end{columns}
@@ -300,21 +284,21 @@
 	Notice that for any complete Heyting algebra $\mathcal{H}$, the pair $(\mathcal{H}, id_\mathcal{H})$ is a spacetime.
 \end{frame}
 
-\begin{frame}{\subSemantics}
-	We can interpret the set of $\mathcal{L}$-formulas $\Phi$ in a spacetime.
+% \begin{frame}{\subSemantics}
+% 	We can interpret the set of $\mathcal{L}$-formulas $\Phi$ in a spacetime.
 
-	\begin{block}{Definition}
-		For any spacetime $S$, a \emph{valuation} is any map $V : \Phi \to S$ such that for all $a, b \in S$
-		\begin{itemize}
-			\item $V(a \vee b) = V(a) \vee V(b)$
-			\item $V(a \wedge b) = V(a) \wedge V(b)$
-			\item $V(a \rightsquigarrow b) = V(a) \rightsquigarrow V(b)$
-			\item $V(\nabla a) = \nabla V(a)$
-			\item $V(\bot) = 0$
-			\item $V(\top) = 1$
-		\end{itemize}
-	\end{block}
-\end{frame}
+% 	\begin{block}{Definition}
+% 		For any spacetime $S$, a \emph{valuation} is any map $V : \Phi \to S$ such that for all $a, b \in S$
+% 		\begin{itemize}
+% 			\item $V(a \vee b) = V(a) \vee V(b)$
+% 			\item $V(a \wedge b) = V(a) \wedge V(b)$
+% 			\item $V(a \rightsquigarrow b) = V(a) \rightsquigarrow V(b)$
+% 			\item $V(\nabla a) = \nabla V(a)$
+% 			\item $V(\bot) = 0$
+% 			\item $V(\top) = 1$
+% 		\end{itemize}
+% 	\end{block}
+% \end{frame}
 
 \begin{frame}{\subSemantics}
 	$\mathbf{iSTL}$ is \emph{the logic of spacetime}.
@@ -442,7 +426,7 @@
 		\quad \small What can we do?
 	\end{block}
 
-	We can try eliminating a stronger version of the $cut$ rule.
+	We can try eliminating a generalized version of the $cut$ rule.
 
 	\begin{block}{}
 		\begin{prooftree}
@@ -465,9 +449,7 @@
 		\quad [ \dots ]
 	\end{block}
 
-	As we see, in some cases $\nabla$ is must commute with other connectives---and we know it does.* So we may also strengthen some rules as well, without increasing the power of the system.
-
-	\small * Notice that we can't do this directly in the proof, because it involves instances of the $cut$ rule.
+	As we see, in some cases $\nabla$ is must commute with other connectives---and we know it does. So we may also generalize some rules as well, without increasing the power of the system.
 \end{frame}
 
 \begin{frame}{\subGSTL}
@@ -523,11 +505,7 @@
 	then using this equivalent system, we hope to establish some properties of $\mathbf{iSTL}$ which are easy to prove using proof-theoretic means.
 	\begin{block}{The work-flow}
 		\[
-			\begin{matrix}
-				P(\mathbf{iSTL}) & \dashv \vdash & P(\mathbf{GSTL}) \\
-				{\bot}\atop{\top} & \quad & {\bot}\atop{\top}\\
-				P(\mathbf{iSTL}-cut) & \quad & P(\mathbf{GSTL}-cut)
-			\end{matrix}
+				P(\mathbf{iSTL}) \iff P(\mathbf{GSTL}) \iff P(\mathbf{GSTL}-cut)
 		\]
 	\end{block}
 	So to prove some propert $P$ for $\mathbf{iSTL}$, we can reduce it to $\mathbf{GSTL}$, where can we apply proof-theoretic methods.
@@ -537,6 +515,7 @@
 	The results we hope to establish for $\mathbf{iSTL}$ include:
 	\begin{itemize}
 		\item Disjunction property
+		\item Subformula property
 		\item Admissibility of the Visser's rules
 		\item Existence of interpolant formulas
 	\end{itemize}
@@ -553,4 +532,11 @@
 
 \bibliographystyle{apalike}
 \bibliography{references}
+
+\begin{frame}[noframenumbering]{\quad}
+	\begin{center}
+		\Huge Thank you!
+	\end{center}
+\end{frame}
+
 \end{document}
